@@ -31,11 +31,19 @@ app.get('/apps', (req, res) => {
   }
 
   // a["app"], a = {App: "ROBLOX"}, b = {App: "Subway Surfers"}, "ROBLOX" < "Subway Surfers" ?
+  const rating = (a,b) => {
+    return a[sort] < b[sort] ? 1 : a[sort] > b[sort] ? -1 : 0;
+  }
+  const app = (a,b) => {
+    return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+  }
+  const sortType = {
+    Rating: rating,
+    App: app
+  }
   if (sort) {
     updatedApps
-      .sort((a, b) => {
-        return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-    });
+      .sort(sortType[sort]);
   }
 
   res.json(updatedApps);
